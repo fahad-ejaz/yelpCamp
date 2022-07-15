@@ -27,10 +27,12 @@ const MongoStore = require('connect-mongo');
 
 var dbUrl = process.env.dbUrl;
 
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!'
+
 const store = new MongoStore({
     mongoUrl: dbUrl,
     crypto: {
-        secret: 'squirrel'
+        secret,
     },
     touchAfter: 24 * 3600
 })
@@ -65,7 +67,7 @@ app.use(mongoSanitize());
 
 const sessionConfig = {
     store,
-    secret: 'thisshouldbeabettersecret!',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -114,8 +116,10 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-app.listen(3000, () => {
-    console.log('Serving on port 3000')
+const port = 80 || 3000
+
+app.listen(port, () => {
+    console.log(`Serving on port ${port}`)
 })
 
 
