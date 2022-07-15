@@ -32,6 +32,31 @@
   </div>
 </div>
 
+<script>
+  async function GetMap() {
+    const response = await fetch('/campgrounds/help')
+    const campgrounds = await response.json()
+    console.log(campgrounds)
+    var map = new Microsoft.Maps.Map('#clusterMap', {});
+    Microsoft.Maps.loadModule("Microsoft.Maps.Clustering", function () {
+      var pins = campgrounds.map(camp => {
+        return (new Microsoft.Maps.Pushpin(
+          new Microsoft.Maps.Location(camp.geometry.coordinates[0], camp.geometry.coordinates[1])))
+      })
+
+      var locs = pins.map(pin => pin.getLocation());
+      var bounds = Microsoft.Maps.LocationRect.fromLocations(locs);
+      console.log(bounds)
+
+      //Create a ClusterLayer and add it to the map.
+      var clusterLayer = new Microsoft.Maps.ClusterLayer(pins);
+      map.layers.insert(clusterLayer);
+      map.setView({ bounds })
+
+    });
+  }
+</script>
+
 
 
 <% })%>
