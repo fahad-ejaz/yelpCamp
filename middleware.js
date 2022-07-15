@@ -13,7 +13,8 @@ module.exports.isLoggedIn = (req, res, next) => {
 }
 
 module.exports.validateCampground = (req, res, next) => {
-    const { error } = campgroundSchema.validate(req.body);
+    const images = req.files.map(f => {return {url: f.path, filename: f.filename}})
+    const { error } = campgroundSchema.validate({campground: {...req.body.campground, images}});
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
