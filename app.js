@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -23,7 +24,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 
 const MongoStore = require('connect-mongo');
 
-// var dbUrl = 'mongodb://localhost:27017/yelp-camp';
+var dbUrl = 'mongodb://localhost:27017/yelp-camp';
 
 var dbUrl = process.env.DB_URL;
 
@@ -122,4 +123,4 @@ app.listen(port, () => {
     console.log(`Serving on port ${port}`)
 })
 
-
+exports.app = app;

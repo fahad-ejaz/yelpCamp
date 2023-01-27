@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "yelp-camp",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
